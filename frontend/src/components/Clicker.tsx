@@ -4,7 +4,7 @@ interface ClickerProps {
 }
 
 let Clicker = ({ onClick, label }: ClickerProps) => {
-    return <button onClick={onClick}>{label}</button>;
+    return <button className="clicker" onClick={onClick}>{label}</button>;
 }
 
 export default Clicker;
