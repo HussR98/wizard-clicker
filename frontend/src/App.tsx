@@ -4,6 +4,8 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Clicker from './components/Clicker'
 import { useGameState } from './hooks/useGameState'
+import UpgradePanel from './components/UpgradePanel'
+import { upgrades } from './utils/upgrades/upgrades'
 
 function App() {
   const {state, setState} = useGameState();
@@ -30,6 +32,9 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
+      </div>
+      <div className="card">
+        <UpgradePanel upgrades={upgrades} state={state} />
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
