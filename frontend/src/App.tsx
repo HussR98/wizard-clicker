@@ -6,6 +6,7 @@ import Clicker from './components/Clicker'
 import { useGameState } from './hooks/useGameState'
 import UpgradePanel from './components/UpgradePanel'
 import { upgrades } from './utils/upgrades/upgrades'
+import ShopPanel from './components/ShopPanel'
 
 function App() {
   const {state, setState} = useGameState();
@@ -35,6 +36,9 @@ function App() {
       </div>
       <div className="card">
         <UpgradePanel upgrades={upgrades} state={state} />
+      </div>
+      <div className="card">
+        <ShopPanel state={state} />
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more

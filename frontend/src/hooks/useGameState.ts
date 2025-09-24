@@ -7,7 +7,7 @@ export interface GameState {
     clickMultiplier: number;
     autoClicksPerSecond: number;
     upgradesPurchased: Record<string, boolean>;
-    upgradesUnlocked: Record<string, boolean>
+    upgradesUnlocked: Record<string, boolean>;
 }
 
 export function checkUnlocks(state: GameState, upgrades: Upgrade[]) {
@@ -29,18 +29,24 @@ export function purchaseUpgrade(state: GameState, upgradeId: string) {
 
 //Custom hook for getting/setting current game state
 export function useGameState(initialState?: Partial<GameState>) {
-  // 1. Set up your state
-  const [state, setState] = useState<GameState>({
+
+    const default_upgrades = upgrades.reduce((acc, upgrade) => {
+        acc[upgrade.id] = false;
+        return acc;
+    }, {} as Record<string, boolean>);
+
+    // 1. Initialize state
+    const [state, setState] = useState<GameState>({
     total: 0,
     clickMultiplier: 1,
     autoClicksPerSecond: 0,
-    upgradesPurchased: {},
-    upgradesUnlocked: {autoClicker0: false}, // start with first upgrade unlocked
+    upgradesPurchased: default_upgrades,
+    upgradesUnlocked: default_upgrades,
     ...initialState, // optional override when initializing
-  });
- 
-  // 2. Add side effects (auto-clicker runs every second)
-  useEffect(() => {
+    });
+
+    // 2. Side effects
+    useEffect(() => {
     const interval = setInterval(() => {
         setState(prev => {
             const unlockedState = checkUnlocks(prev, upgrades);
@@ -53,8 +59,8 @@ export function useGameState(initialState?: Partial<GameState>) {
 
     // cleanup when component unmounts
     return () => clearInterval(interval);
-  }, [state.autoClicksPerSecond]);
+    }, [state.autoClicksPerSecond]);
 
-  // 3. Return state + updater
-  return { state, setState };    
+    // 3. Return state + updater
+    return { state, setState };    
 }
