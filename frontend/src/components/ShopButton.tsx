@@ -1,13 +1,25 @@
+import { useGameStateContext } from "../hooks/GameStateContext";
 
 interface ShopButtonProps {
-    name: string;
-    value: number;
-    cost: number;
-    total: number;
+  name: "Auto Clicker" | "Click Multiplier";
+  cost: number;
 }
 
-const ShopButton = ({ name, value, cost, total }: ShopButtonProps) => {
-    return <button className="shop-button" disabled={cost > total}>{name} - currently {value} - {cost} crystals</button>;
-}
+const ShopButton = ({ name, cost }: ShopButtonProps) => {
+  const { state, buyShopItem } = useGameStateContext();
+
+  const value =
+    name === "Auto Clicker" ? state.autoClicksPerSecond : state.clickMultiplier;
+
+  return (
+    <button
+      className="shop-button"
+      disabled={cost > state.total}
+      onClick={() => buyShopItem(name, cost)}
+    >
+      {name} - currently {value} - {cost} crystals
+    </button>
+  );
+};
 
 export default ShopButton;

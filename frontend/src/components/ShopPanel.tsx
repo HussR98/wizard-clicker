@@ -1,30 +1,20 @@
-import {type GameState} from "../hooks/useGameState";
-import { useEffect } from "react";
 import ShopButton from "./ShopButton";
+import { useGameStateContext } from "../hooks/GameStateContext";
 
-interface ShopPanelProps {
-    state: GameState;
-}
+const ShopPanel = () => {
+  const { state } = useGameStateContext();
 
-const ShopPanel = ({ state }: ShopPanelProps) => {
-    useEffect(() => {
-    }, [state]
-    )
-
-    return (
-        <div className="shop-panel">
-            {
-                (state.autoClicksPerSecond || state.clickMultiplier > 1) &&
-                (
-                    <>
-                        <h2>Shop</h2>
-                        {state.autoClicksPerSecond > 0 && <ShopButton name="Auto Clicker" value={state.autoClicksPerSecond} cost={10} total={state.total} />}
-                        {state.clickMultiplier > 1 && <ShopButton name="Click Multiplier" value={state.clickMultiplier} cost={50} total={state.total} />}
-                    </>
-                )
-            }
-        </div>
-    );
-}
+  return (
+    <div className="shop-panel">
+      {(state.autoClicksPerSecond > 0 || state.clickMultiplier > 1) && (
+        <>
+          <h2>Shop</h2>
+          {state.autoClicksPerSecond > 0 && <ShopButton name="Auto Clicker" cost={10} />}
+          {state.clickMultiplier > 1 && <ShopButton name="Click Multiplier" cost={50} />}
+        </>
+      )}
+    </div>
+  );
+};
 
 export default ShopPanel;

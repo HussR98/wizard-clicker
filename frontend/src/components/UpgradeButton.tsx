@@ -1,13 +1,22 @@
 import Upgrade from "../utils/upgrades/Upgrade";
-import {type GameState} from "../hooks/useGameState";
+import { useGameStateContext } from "../hooks/GameStateContext";
 
 interface UpgradeButtonProps {
-    upgrade: Upgrade;
-    state: GameState;
+  upgrade: Upgrade;
 }
 
-const UpgradeButton = ({ upgrade, state }: UpgradeButtonProps) => {
-    return <button className="upgrade-button" disabled={upgrade.unlocked(state)}>{upgrade.name} - {upgrade.description} - {upgrade.cost} crystals</button>;
-}
+const UpgradeButton = ({ upgrade }: UpgradeButtonProps) => {
+  const { state, buyUpgrade } = useGameStateContext();
+
+  return (
+    <button
+      className="upgrade-button"
+      disabled={upgrade.cost > state.total}
+      onClick={() => buyUpgrade(upgrade.id)}
+    >
+      {upgrade.name} - {upgrade.description} - {upgrade.cost} crystals
+    </button>
+  );
+};
 
 export default UpgradeButton;

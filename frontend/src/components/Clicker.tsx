@@ -3,7 +3,7 @@ interface ClickerProps {
     label: string;
 }
 
-let Clicker = ({ onClick, label }: ClickerProps) => {
+const Clicker = ({ onClick, label }: ClickerProps) => {
     return <button className="clicker" onClick={onClick}>{label}</button>;
 }
 

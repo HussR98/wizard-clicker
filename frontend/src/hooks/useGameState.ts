@@ -3,64 +3,127 @@ import type Upgrade from "../utils/upgrades/Upgrade";
 import { upgrades } from "../utils/upgrades/upgrades";
 
 export interface GameState {
-    total: number;
-    clickMultiplier: number;
-    autoClicksPerSecond: number;
-    upgradesPurchased: Record<string, boolean>;
-    upgradesUnlocked: Record<string, boolean>;
+  total: number;
+  clickMultiplier: number;
+  autoClicksPerSecond: number;
+  upgradesPurchased: Record<string, boolean>;
+  upgradesUnlocked: Record<string, boolean>;
 }
 
+// Return type of hook
+export interface UseGameStateReturn {
+  state: GameState;
+  addClick: () => void;
+  buyUpgrade: (upgradeId: string) => void;
+  buyShopItem: (
+    item: "Auto Clicker" | "Click Multiplier",
+    cost: number
+  ) => void;
+}
+
+// Unlock logic
 export function checkUnlocks(state: GameState, upgrades: Upgrade[]) {
-    const newUnlocked = {...state.upgradesUnlocked};
+  const newUnlocked = { ...state.upgradesUnlocked };
 
-    for (const upgrade of upgrades) {
-        if (!newUnlocked[upgrade.id] && upgrade.unlocked(state)) {
-            newUnlocked[upgrade.id] = true;
-        }
+  for (const upgrade of upgrades) {
+    if (!newUnlocked[upgrade.id] && upgrade.unlocked(state)) {
+      newUnlocked[upgrade.id] = true;
     }
+  }
 
-    return {...state, upgradesUnlocked: newUnlocked}
+  return { ...state, upgradesUnlocked: newUnlocked };
 }
 
-export function purchaseUpgrade(state: GameState, upgradeId: string) {
-    state.upgradesPurchased[upgradeId] = true;
-    return {...state, upgradesPurchased: {...state.upgradesPurchased}};
+// Upgrade purchase (immutable)
+export function purchaseUpgrade(prev: GameState, upgradeId: string): GameState {
+  const upgrade = upgrades.find((u) => u.id === upgradeId);
+  if (!upgrade || prev.total < upgrade.cost) return prev;
+
+  const newState: GameState = {
+    ...prev,
+    total: prev.total - upgrade.cost,
+    upgradesPurchased: { ...prev.upgradesPurchased, [upgradeId]: true },
+  };
+
+  upgrade.effect(newState);
+
+  return newState;
 }
 
-//Custom hook for getting/setting current game state
-export function useGameState(initialState?: Partial<GameState>) {
+// Shop item purchase (immutable)
+export function purchaseShopItem(
+  prev: GameState,
+  item: "Auto Clicker" | "Click Multiplier",
+  cost: number
+): GameState {
+  if (prev.total < cost) return prev;
 
-    const default_upgrades = upgrades.reduce((acc, upgrade) => {
-        acc[upgrade.id] = false;
-        return acc;
-    }, {} as Record<string, boolean>);
+  const newState: GameState = {
+    ...prev,
+    total: prev.total - cost,
+    autoClicksPerSecond: prev.autoClicksPerSecond,
+    clickMultiplier: prev.clickMultiplier,
+  };
 
-    // 1. Initialize state
-    const [state, setState] = useState<GameState>({
+  if (item === "Auto Clicker") newState.autoClicksPerSecond += 1;
+  if (item === "Click Multiplier") newState.clickMultiplier += 1;
+
+  return newState;
+}
+
+// Custom hook
+export function useGameState(
+  initialState?: Partial<GameState>
+): UseGameStateReturn {
+  const defaultUpgrades = upgrades.reduce((acc, u) => {
+    acc[u.id] = false;
+    return acc;
+  }, {} as Record<string, boolean>);
+
+  const [state, setState] = useState<GameState>({
     total: 0,
     clickMultiplier: 1,
     autoClicksPerSecond: 0,
-    upgradesPurchased: default_upgrades,
-    upgradesUnlocked: default_upgrades,
-    ...initialState, // optional override when initializing
-    });
+    upgradesPurchased: defaultUpgrades,
+    upgradesUnlocked: defaultUpgrades,
+    ...initialState,
+  });
 
-    // 2. Side effects
-    useEffect(() => {
+  // Helper to always apply checkUnlocks
+  function safeSetState(updater: (prev: GameState) => GameState) {
+    setState((prev) => checkUnlocks(updater(prev), upgrades));
+  }
+
+  // Auto-click interval
+  useEffect(() => {
     const interval = setInterval(() => {
-        setState(prev => {
-            const unlockedState = checkUnlocks(prev, upgrades);
-            return {
-                ...unlockedState,
-                total: prev.total + prev.autoClicksPerSecond,
-            };
-        });
-    }, 2000);
+      safeSetState((prev) => ({
+        ...prev,
+        total: prev.total + prev.autoClicksPerSecond,
+      }));
+    }, 1000);
 
-    // cleanup when component unmounts
     return () => clearInterval(interval);
-    }, [state.autoClicksPerSecond]);
+  }, []);
 
-    // 3. Return state + updater
-    return { state, setState };    
+  // Actions
+  function addClick() {
+    safeSetState((prev) => ({
+      ...prev,
+      total: prev.total + prev.clickMultiplier,
+    }));
+  }
+
+  function buyUpgrade(upgradeId: string) {
+    safeSetState((prev) => purchaseUpgrade(prev, upgradeId));
+  }
+
+  function buyShopItemAction(
+    item: "Auto Clicker" | "Click Multiplier",
+    cost: number
+  ) {
+    safeSetState((prev) => purchaseShopItem(prev, item, cost));
+  }
+
+  return { state, addClick, buyUpgrade, buyShopItem: buyShopItemAction };
 }

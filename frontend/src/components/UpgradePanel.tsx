@@ -1,29 +1,25 @@
 import Upgrade from "../utils/upgrades/Upgrade";
 import UpgradeButton from "./UpgradeButton";
-import {type GameState} from "../hooks/useGameState";
-import { useEffect } from "react";
+import { useGameStateContext } from "../hooks/GameStateContext";
 
 interface UpgradePanelProps {
-    upgrades: Upgrade[];
-    state: GameState;
+  upgrades: Upgrade[];
 }
 
-const UpgradePanel = ({ upgrades, state }: UpgradePanelProps) => {
-    useEffect(() => {
-    }, [state]
-    )
+const UpgradePanel = ({ upgrades }: UpgradePanelProps) => {
+  const { state } = useGameStateContext();
 
-    return (
-        <div className="upgrade-panel">
-            <h2>Upgrades</h2>
-            {upgrades
-                .filter((upgrade) => upgrade.isUnlocked(state))
-                .map((upgrade) => (
-                    <UpgradeButton key={upgrade.id} upgrade={upgrade} state={state} />
-                ))}
-        </div>
-    );
-}
+  return (
+    <div className="upgrade-panel">
+      <h2>Upgrades</h2>
+      {upgrades
+        .filter(u => u.isUnlocked(state))
+        .filter(u => !state.upgradesPurchased[u.id])
+        .map(u => (
+          <UpgradeButton key={u.id} upgrade={u} />
+        ))}
+    </div>
+  );
+};
 
 export default UpgradePanel;
-                
