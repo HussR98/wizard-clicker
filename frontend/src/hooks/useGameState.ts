@@ -5,7 +5,9 @@ import { upgrades } from "../utils/upgrades/upgrades";
 export interface GameState {
   total: number;
   clickMultiplier: number;
+  bonusClickMultiplier: number;
   autoClicksPerSecond: number;
+  bonusAutoClickMultiplier: number;
   upgradesPurchased: Record<string, boolean>;
   upgradesUnlocked: Record<string, boolean>;
 }
@@ -83,7 +85,9 @@ export function useGameState(
   const [state, setState] = useState<GameState>({
     total: 0,
     clickMultiplier: 1,
+    bonusClickMultiplier: 1,
     autoClicksPerSecond: 0,
+    bonusAutoClickMultiplier: 1,
     upgradesPurchased: defaultUpgrades,
     upgradesUnlocked: defaultUpgrades,
     ...initialState,
@@ -110,7 +114,7 @@ export function useGameState(
   function addClick() {
     safeSetState((prev) => ({
       ...prev,
-      total: prev.total + prev.clickMultiplier,
+      total: prev.total + prev.clickMultiplier * prev.bonusClickMultiplier,
     }));
   }
 

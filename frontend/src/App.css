@@ -1,6 +1,5 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
+  margin: auto auto;
   padding: 2rem;
   text-align: center;
 }
@@ -11,9 +10,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em #61dafbaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -23,10 +24,15 @@
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
+  grid-column: 2 / span 1;
+  grid-row: 3 / span 1;
+  justify-self: center;
 }
+
 .clicker:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em #61dafbaa);
 }
+
 .clicker.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -35,6 +41,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -52,4 +59,52 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.page-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  min-height: 90vh;
+  width: 90vw;
+}
+
+.upgrade-panel {
+  grid-column: 3 / span 1;
+  grid-row: 1 / span 3;
+  width: 100%;
+  justify-self: center;
+}
+
+.shop-panel {
+  grid-column: 1 / span 1;
+  grid-row: 1 / span 3;
+  width: 100%;
+  justify-self: center;
+}
+
+.title {
+  grid-column: 2 / span 1;
+  grid-row: 1 / span 1;
+  justify-self: center;
+}
+
+.upgrade-button {
+  display: block;
+  margin: 0.5em auto;
+  width: 80%;
+}
+
+.shop-button {
+  display: block;
+  margin: 0.5em auto;
+  width: 80%;
+}
+
+.counter {
+  font-size: 2em;
+  grid-column: 2 / span 1;
+  grid-row: 2 / span 1;
+  justify-self: center;
+  align-self: center;
 }
