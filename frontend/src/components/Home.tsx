@@ -6,6 +6,7 @@ import { upgrades } from '../utils/upgrades/upgrades'
 import ShopPanel from './ShopPanel'
 import { useGameStateContext } from "../hooks/GameStateContext";
 import Counter from './Counter'
+import Crystal from './Crystal'
 
 function Home() {
   const { state, addClick } = useGameStateContext();
@@ -15,7 +16,8 @@ function Home() {
       <div className="page-container">
         <h1 className="title">Wizard Clicker</h1>
         <Counter count={state.total.toString()} />
-        <Clicker onClick={addClick} label={`count is ${state.total}`} />
+        <Crystal />
+        <Clicker onClick={addClick} label={`CLICK`} />
         <UpgradePanel upgrades={upgrades} />
         <ShopPanel />
       </div>
