@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import type Upgrade from "../utils/upgrades/Upgrade";
 import { upgrades } from "../utils/upgrades/upgrades";
 
@@ -82,21 +82,47 @@ export function useGameState(
     return acc;
   }, {} as Record<string, boolean>);
 
-  const [state, setState] = useState<GameState>({
-    total: 0,
-    clickMultiplier: 1,
-    bonusClickMultiplier: 1,
-    autoClicksPerSecond: 0,
-    bonusAutoClickMultiplier: 1,
-    upgradesPurchased: defaultUpgrades,
-    upgradesUnlocked: defaultUpgrades,
-    ...initialState,
-  });
+  const loadState = (): GameState => {
+    const saved = localStorage.getItem("gameState");
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.warn("Failed to parse saved state, using defaults", e);
+      }
+    }
+
+    return {
+      total: 0,
+      clickMultiplier: 1,
+      bonusClickMultiplier: 1,
+      autoClicksPerSecond: 0,
+      bonusAutoClickMultiplier: 1,
+      upgradesPurchased: defaultUpgrades,
+      upgradesUnlocked: defaultUpgrades,
+      ...initialState,
+    };
+  };
+
+  const [state, setState] = useState<GameState>(loadState());
 
   // Helper to always apply checkUnlocks
   function safeSetState(updater: (prev: GameState) => GameState) {
     setState((prev) => checkUnlocks(updater(prev), upgrades));
   }
+
+  const stateRef = useRef(state);
+
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      localStorage.setItem("gameState", JSON.stringify(stateRef.current));
+    }, 10000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Auto-click interval
   useEffect(() => {

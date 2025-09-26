@@ -22,7 +22,7 @@ const bonusAutoMult0 = new Upgrade({
   cost: 500,
   unlocked: (state: GameState) => state.total >= 300,
   effect: (state: GameState) => {
-    state.bonusClickMultiplier *= 10;
+    state.bonusAutoClickMultiplier *= 10;
     return null;
   },
 });
