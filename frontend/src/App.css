@@ -93,62 +93,63 @@
 
 @keyframes float {
   0% {
-    transform: translateY(0);
+    transform: translateY(-38%);
   }
 
   50% {
-    transform: translateY(-30px);
+    transform: translateY(-22%);
   }
 
   100% {
-    transform: translateY(0);
+    transform: translateY(-38%);
   }
+
 }
 
 @keyframes shake {
   0% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-
-  10% {
-    transform: translate(-1px, -1px) rotate(-1deg);
+    transform: translate(0, 0);
   }
 
   20% {
-    transform: translate(-2px, 0) rotate(1deg);
-  }
-
-  30% {
-    transform: translate(1px, 1px) rotate(0deg);
+    transform: translate(-3px, 0);
   }
 
   40% {
-    transform: translate(2px, 0) rotate(1deg);
+    transform: translate(3px, 0);
   }
 
-  50% {
-    transform: translate(-1px, -1px) rotate(-1deg);
-  }
 
   60% {
-    transform: translate(1px, 1px) rotate(0deg);
-  }
-
-  70% {
-    transform: translate(-2px, 0) rotate(-1deg);
+    transform: translate(-3px, 0px);
   }
 
   80% {
-    transform: translate(2px, -1px) rotate(1deg);
-  }
-
-  90% {
-    transform: translate(-1px, 1px) rotate(0deg);
+    transform: translate(3px, 0px);
   }
 
   100% {
-    transform: translate(0, 0) rotate(0deg);
+    transform: translate(0, 0);
   }
+}
+
+.shake {
+  animation: float 4s ease-in-out infinite, shake 0.5s;
+}
+
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.crystal-wrapper {
+  grid-column: 2 / span 1;
+  grid-row: 2 / span 1;
+  justify-self: center;
+  align-self: center;
+  max-height: 35vh;
+  padding: 0px;
+  margin: 0px;
+  animation: float 6s ease-in-out infinite;
 }
 
 .crystal {
@@ -156,8 +157,7 @@
   grid-row: 2 / span 1;
   justify-self: center;
   align-self: center;
-  animation: float 4s ease-in-out infinite;
-  max-height: 40vh;
+  max-height: 50vh;
   padding: 0px;
   margin: 0px;
 }

@@ -7,17 +7,24 @@ import ShopPanel from './ShopPanel'
 import { useGameStateContext } from "../hooks/GameStateContext";
 import Counter from './Counter'
 import Crystal from './Crystal'
+import { CrystalRef } from './Crystal';
+import { useRef } from "react";
 
 function Home() {
   const { state, addClick } = useGameStateContext();
+  const crystalRef = useRef<CrystalRef>(null);
+  const handleClick = () => {
+    crystalRef.current?.triggerShake();
+    addClick();
+  }
 
   return (
     <>
       <div className="page-container">
         <h1 className="title">Wizard Clicker</h1>
         <Counter count={state.total.toString()} />
-        <Crystal />
-        <Clicker onClick={addClick} label={`CLICK`} />
+        <Crystal ref={crystalRef} />
+        <Clicker onClick={handleClick} label={`CLICK`} />
         <UpgradePanel upgrades={upgrades} />
         <ShopPanel />
       </div>
