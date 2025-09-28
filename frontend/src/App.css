@@ -186,3 +186,134 @@
 .clicker.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
+
+.shop-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0d0f18;
+  border-radius: 8px;
+  border: 1px solid #b8c1ec;
+  padding: 14px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(35, 41, 70, 0.12);
+}
+
+.shop-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.shop-item-name {
+  font-weight: bold;
+  font-size: 1.15em;
+  color: #61dafbaa;
+}
+
+.shop-item-value {
+  color: #b8c1ec;
+  font-size: 1em;
+}
+
+.shop-item-cost {
+  color: #fffffe;
+  font-size: 0.98em;
+}
+
+.shop-button {
+  background: #61dafbaa;
+  color: #0d0f18;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 22px;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(35, 41, 70, 0.10);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.shop-button:hover:not(:disabled) {
+  background: #fffffe;
+  color: #0d0f18;
+  box-shadow: 0 2px 8px rgba(238, 187, 195, 0.18);
+}
+
+.shop-button:disabled {
+  background: #b8c1ec;
+  color: #888;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Add to App.css for Upgrade UI consistency */
+
+.upgrade-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0d0f18;
+  border-radius: 8px;
+  border: 1px solid #b8c1ec;
+  padding: 14px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(35, 41, 70, 0.12);
+}
+
+.upgrade-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.upgrade-item-name {
+  font-weight: bold;
+  font-size: 1.1em;
+  color: #61dafbaa;
+}
+
+.upgrade-item-desc {
+  color: #b8c1ec;
+  font-size: 0.98em;
+}
+
+.upgrade-item-cost {
+  color: #fffffe;
+  font-size: 0.98em;
+}
+
+.upgrade-button {
+  background: #61dafbaa;
+  color: #232946;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 22px;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(35, 41, 70, 0.10);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.upgrade-button:hover:not(:disabled) {
+  background: #fffffe;
+  color: #0d0f18;
+  box-shadow: 0 2px 8px rgba(238, 187, 195, 0.18);
+}
+
+.upgrade-button:disabled {
+  background: #b8c1ec;
+  color: #888;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.upgrade-item-desc-box {
+  border: 1px solid #b8c1ec;
+  background: #232946;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin: 8px 12px;
+  color: #b8c1ec;
+}
