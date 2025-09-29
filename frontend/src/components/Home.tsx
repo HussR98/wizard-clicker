@@ -1,5 +1,3 @@
-import reactLogo from '../assets/react.svg'
-import viteLogo from '/vite.svg'
 import Clicker from './Clicker'
 import UpgradePanel from './UpgradePanel'
 import { upgrades } from '../utils/upgrades/upgrades'
