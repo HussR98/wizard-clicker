@@ -1,27 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import type Upgrade from "../utils/upgrades/Upgrade";
 import { upgrades } from "../utils/upgrades/upgrades";
-
-export interface GameState {
-  total: number;
-  clickMultiplier: number;
-  bonusClickMultiplier: number;
-  autoClicksPerSecond: number;
-  bonusAutoClickMultiplier: number;
-  upgradesPurchased: Record<string, boolean>;
-  upgradesUnlocked: Record<string, boolean>;
-}
-
-// Return type of hook
-export interface UseGameStateReturn {
-  state: GameState;
-  addClick: () => void;
-  buyUpgrade: (upgradeId: string) => void;
-  buyShopItem: (
-    item: "Auto Clicker" | "Click Multiplier",
-    cost: number
-  ) => void;
-}
+import type { GameState } from "../types";
+import type { UseGameStateReturn } from "../types";
 
 // Unlock logic
 export function checkUnlocks(state: GameState, upgrades: Upgrade[]) {

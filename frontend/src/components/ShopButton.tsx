@@ -1,9 +1,5 @@
 import { useGameStateContext } from "../hooks/GameStateContext";
-
-interface ShopButtonProps {
-  name: "Auto Clicker" | "Click Multiplier";
-  cost: number;
-}
+import { ShopButtonProps } from "../types";
 
 const ShopButton = ({ name, cost }: ShopButtonProps) => {
   const { state, buyShopItem } = useGameStateContext();

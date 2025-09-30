@@ -1,5 +1,5 @@
 import Upgrade from "./Upgrade";
-import { GameState } from "../../hooks/useGameState";
+import type { GameState } from "../../types";
 
 const autoClicker0 = new Upgrade({
   id: "autoClicker0",

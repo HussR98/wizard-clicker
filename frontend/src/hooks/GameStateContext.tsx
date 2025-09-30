@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import type { UseGameStateReturn } from "./useGameState";
+import type { UseGameStateReturn } from "../types";
 import { useGameState } from "./useGameState";
 
 const GameStateContext = createContext<UseGameStateReturn | null>(null);

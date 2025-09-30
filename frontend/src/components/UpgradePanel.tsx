@@ -1,10 +1,6 @@
-import Upgrade from "../utils/upgrades/Upgrade";
 import UpgradeButton from "./UpgradeButton";
 import { useGameStateContext } from "../hooks/GameStateContext";
-
-interface UpgradePanelProps {
-  upgrades: Upgrade[];
-}
+import { UpgradePanelProps } from "../types";
 
 const UpgradePanel = ({ upgrades }: UpgradePanelProps) => {
   const { state } = useGameStateContext();

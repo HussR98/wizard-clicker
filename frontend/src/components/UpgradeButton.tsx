@@ -1,9 +1,5 @@
-import Upgrade from "../utils/upgrades/Upgrade";
 import { useGameStateContext } from "../hooks/GameStateContext";
-
-interface UpgradeButtonProps {
-  upgrade: Upgrade;
-}
+import { UpgradeButtonProps } from "../types";
 
 const UpgradeButton = ({ upgrade }: UpgradeButtonProps) => {
   const { state, buyUpgrade } = useGameStateContext();

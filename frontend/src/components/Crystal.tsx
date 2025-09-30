@@ -1,10 +1,8 @@
 // Crystal.tsx
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import crystalImg from "../assets/crystal-px.png";
+import { CrystalRef } from "../types";
 
-export interface CrystalRef {
-    triggerShake: () => void;
-}
 
 const Crystal = forwardRef<CrystalRef>((_, ref) => {
     const imgRef = useRef<HTMLImageElement | null>(null);

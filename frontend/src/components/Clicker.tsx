@@ -1,9 +1,6 @@
 import flameImg from '../assets/blue-flame-px.png';
+import { ClickerProps } from '../types';
 
-interface ClickerProps {
-    onClick: () => void;
-    label: string;
-}
 
 const Clicker = ({ onClick, label }: ClickerProps) => {
     return <button className="card clicker" onClick={onClick}><img className="flame" src={flameImg} />{label}</button>;

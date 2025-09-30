@@ -1,13 +1,5 @@
-import { GameState } from "../../hooks/useGameState";
-
-export interface UpgradeProps {
-  id: string;
-  name: string;
-  description: string;
-  cost: number;
-  unlocked: (state: GameState) => boolean;
-  effect: (state: GameState) => null;
-}
+import type { GameState } from "../../types";
+import type { UpgradeProps } from "../../types";
 
 export default class Upgrade {
   id: string;
