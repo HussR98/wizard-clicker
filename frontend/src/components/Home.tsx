@@ -5,7 +5,7 @@ import ShopPanel from './ShopPanel'
 import { useGameStateContext } from "../hooks/GameStateContext";
 import Counter from './Counter'
 import Crystal from './Crystal'
-import { CrystalRef } from './Crystal';
+import type { CrystalRef } from '../types'
 import { useRef } from "react";
 
 function Home() {
